@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psalm Prayers</title>
+<style>
+  :root {
+    --bg: #faf8f4;
+    --fg: #26221c;
+    --muted: #7a7264;
+    --card: #ffffff;
+    --border: #e5ded2;
+    --accent: #8a6d3b;
+  }
+  [data-theme="dark"] {
+    --bg: #171512;
+    --fg: #ece7dd;
+    --muted: #9a917f;
+    --card: #211e1a;
+    --border: #3a352d;
+    --accent: #c9a45c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.25rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Georgia, "Times New Roman", serif;
+    transition: background 0.25s, color 0.25s;
+  }
+  main { max-width: 620px; width: 100%; text-align: center; }
+  h1 {
+    font-size: 1.05rem;
+    font-weight: normal;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 2rem;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2.2rem 2rem;
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .title { font-size: 1.25rem; margin: 0 0 1rem; }
+  .antiphon {
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.1rem;
+    margin: 0 0 1.2rem;
+  }
+  .text { font-size: 1.15rem; line-height: 1.75; margin: 0; white-space: pre-wrap; text-align: left; }
+  .source { margin-top: 1.8rem; font-size: 0.9rem; color: var(--muted); }
+  .source a { color: var(--accent); text-decoration: none; }
+  .source a:hover { text-decoration: underline; }
+  .controls { margin-top: 2rem; display: flex; gap: 0.75rem; justify-content: center; }
+  button {
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  .count { margin-top: 1.2rem; font-size: 0.8rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Psalm Prayers</h1>
+  <div class="card">
+    <p class="title" id="title"></p>
+    <p class="antiphon" id="antiphon"></p>
+    <p class="text" id="text"></p>
+    <p class="source" id="source"></p>
+  </div>
+  <div class="controls">
+    <button id="another" type="button">Another prayer</button>
+    <button id="theme" type="button">Dark</button>
+  </div>
+  <p class="count" id="count"></p>
+</main>
+
+<script>
+  // ==========================================================
+  //  THE COLLECTION — this list only grows from what Ping
+  //  adds, one entry at a time.
+  //
+  //  To add a prayer, copy one block below, paste it into the
+  //  list, and fill in the fields:
+  //
+  //    {
+  //      title:    "Psalm 23 — The Lord is my shepherd",
+  //      antiphon: "The Lord is my shepherd; I shall not want.",
+  //      text:     "The psalm-prayer text goes here.",
+  //      source:   "Divine Office — Morning Prayer, Monday Week II",
+  //      url:      "https://divineoffice.org/..."
+  //    },
+  //
+  //  Fields:
+  //    title    — just the psalm number, as the source names it
+  //    antiphon — the antiphon Ping remembers it by (optional)
+  //    text     — the FULL text exactly as the source presents
+  //               it (for Divine Office: the whole psalmody —
+  //               antiphons, parts, Glory be, psalm-prayer —
+  //               copied word for word). Nothing added, nothing
+  //               paraphrased, nothing of ours.
+  //    source   — where it came from, in words
+  //    url      — link to the source page (USCCB, Divine Office, ...)
+  // ==========================================================
+  const PRAYERS = [
+    {
+      title: "",
+      antiphon: "",
+      text: "Ant. 1 I love you, Lord; you are my strength.\n\nPsalm 18\nThanksgiving for salvation and victory\n\nAt that time there was a violent earthquake (Revelation 11:13).\n\nI\n\nI love you, Lord, my strength,\nmy rock, my fortress, my savior.\nMy God is the rock where I take refuge;\nmy shield, my mighty help, my stronghold.\nThe Lord is worthy of all praise;\nwhen I call I am saved from my foes.\n\nThe waves of death rose about me;\nthe torrents of destruction assailed me;\nthe snares of the grave entangled me;\nthe traps of death confronted me.\nIn my anguish I called to the Lord;\nI cried to my God for help.\nFrom his temple he heard my voice;\nmy cry came to his ears.\n\nGlory to the Father, and to the Son, and to the Holy Spirit:\n— as it was in the beginning, is now, and will be for ever. Amen.\n\nAnt. I love you, Lord; you are my strength.\n\nAnt. 2 The Lord has saved me; he wanted me for his own.\n\nII\n\nThen the earth reeled and rocked;\nthe mountains were shaken to their base:\nthey reeled at his terrible anger.\nSmoke came forth from his nostrils\nand scorching fire from his mouth:\ncoals were set ablaze by its heat.\nHe lowered the heavens and came down,\na black cloud under his feet.\nHe came enthroned on the cherubim,\nhe flew on the wings of the wind.\nHe made the darkness his covering,\nthe dark waters of the clouds, his tent.\nA brightness shone out before him\nwith hailstones and flashes of fire.\nThe Lord thundered in the heavens;\nthe Most High let his voice be heard.\nHe shot his arrows, scattered the foe,\nflashed his lightnings and put them to flight.\nThe bed of the ocean was revealed;\nthe foundations of the world were laid bare\nat the thunder of your threat, O Lord,\nat the blast of the breath of your anger.\nFrom on high he reached down and seized me;\nhe drew me forth from the mighty waters.\nHe snatched me from my powerful foe,\nfrom my enemies whose strength I could not match.\nThey assailed me in the day of my misfortune,\nbut the Lord was my support.\nHe brought me forth into freedom,\nhe saved me because he loved me.\n\nGlory to the Father, and to the Son, and to the Holy Spirit:\n— as it was in the beginning, is now, and will be for ever. Amen.\n\nAnt. The Lord has saved me; he wanted me for his own.\n\nAnt. 3 Lord, kindle a light for my guidance and scatter my darkness.\n\nIII\n\nHe rewarded me because I was just,\nrepaid me, for my hands were clean,\nfor I have kept the way of the Lord\nand have not fallen away from my God.\nFor his judgments are all before me:\nI have never neglected his commands.\nI have always been upright before him;\nI have kept myself from guilt.\nHe repaid me because I was just\nand my hands were clean in his eyes.\nYou are loving with those who love you:\nyou show yourself perfect with the perfect.\nWith the sincere you show yourself sincere,\nbut the cunning you outdo in cunning.\nFor you save a humble people\nbut humble the eyes that are proud.\nYou, O Lord, are my lamp,\nmy God who lightens my darkness.\nWith you I can break through any barrier,\nwith my God I can scale any wall.\n\nGlory to the Father, and to the Son, and to the Holy Spirit:\n— as it was in the beginning, is now, and will be for ever. Amen.\n\nPsalm-prayer\n\nLord God, our strength and salvation, put in us the flame of your love and make our love for you grow to a perfect love which reaches to our neighbor.\n\nAnt. Lord, kindle a light for my guidance and scatter my darkness.",
+      source: "Divine Office — Office of Readings, Wednesday Week I (heard Wed Nov 18, 2026)",
+      url: "https://divineoffice.org/ord-w33-wed-or/"
+    }
+  ];
+
+  // Theme: saved choice wins, otherwise follow the system.
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('theme');
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeBtn.textContent = t === 'dark' ? 'Light' : 'Dark';
+    try { localStorage.setItem('psalm-prayers-theme', t); } catch (e) {}
+  }
+  let saved = null;
+  try { saved = localStorage.getItem('psalm-prayers-theme'); } catch (e) {}
+  setTheme(saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () =>
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+  // Random prayer, never the same one twice in a row.
+  let last = -1;
+  function showRandom() {
+    if (!PRAYERS.length) return;
+    let i;
+    do { i = Math.floor(Math.random() * PRAYERS.length); }
+    while (PRAYERS.length > 1 && i === last);
+    last = i;
+    const p = PRAYERS[i];
+    const titleEl = document.getElementById('title');
+    titleEl.textContent = p.title || '';
+    titleEl.style.display = p.title ? '' : 'none';
+    const ant = document.getElementById('antiphon');
+    ant.textContent = p.antiphon ? '“' + p.antiphon + '”' : '';
+    ant.style.display = p.antiphon ? '' : 'none';
+    document.getElementById('text').textContent = p.text || '';
+    const src = document.getElementById('source');
+    if (p.url) {
+      src.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = p.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = p.source || p.url;
+      src.appendChild(a);
+    } else {
+      src.textContent = p.source || '';
+    }
+    document.getElementById('count').textContent =
+      PRAYERS.length + (PRAYERS.length === 1 ? ' prayer collected' : ' prayers collected');
+  }
+  document.getElementById('another').addEventListener('click', showRandom);
+  showRandom();
+</script>
+</body>
+</html>
