@@ -96,40 +96,43 @@
 
 <script>
   // ==========================================================
-  //  THE COLLECTION — this list only grows from what Ping
-  //  adds, one entry at a time.
+  //  THE COLLECTION lives in prayers.json, in this same repo.
+  //  It only grows from what Ping adds, one entry at a time.
   //
-  //  To add a prayer, copy one block below, paste it into the
-  //  list, and fill in the fields:
+  //  To add a prayer, add one entry to the "prayers" list in
+  //  prayers.json:
   //
   //    {
-  //      title:    "Psalm 23 — The Lord is my shepherd",
-  //      antiphon: "The Lord is my shepherd; I shall not want.",
-  //      text:     "The psalm-prayer text goes here.",
-  //      source:   "Divine Office — Morning Prayer, Monday Week II",
-  //      url:      "https://divineoffice.org/..."
-  //    },
+  //      "title": "",
+  //      "antiphon": "",
+  //      "text": "The FULL text exactly as the source presents
+  //               it, word for word - for Divine Office, the
+  //               whole psalmody: antiphons, parts, Glory be,
+  //               psalm-prayer. Nothing added, nothing
+  //               paraphrased, nothing of ours.",
+  //      "source": "Divine Office - Office of Readings, ...",
+  //      "url": "https://divineoffice.org/..."
+  //    }
   //
   //  Fields:
-  //    title    — just the psalm number, as the source names it
-  //    antiphon — the antiphon Ping remembers it by (optional)
-  //    text     — the FULL text exactly as the source presents
-  //               it (for Divine Office: the whole psalmody —
-  //               antiphons, parts, Glory be, psalm-prayer —
-  //               copied word for word). Nothing added, nothing
-  //               paraphrased, nothing of ours.
-  //    source   — where it came from, in words
-  //    url      — link to the source page (USCCB, Divine Office, ...)
+  //    title    - just the psalm number, as the source names
+  //               it (may be empty; the full text carries its
+  //               own heading)
+  //    antiphon - the antiphon Ping remembers it by (optional,
+  //               may be empty)
+  //    text     - the full source text, verbatim
+  //    source   - where it came from, in words
+  //    url      - link to the source page (USCCB, Divine
+  //               Office, ...)
   // ==========================================================
-  const PRAYERS = [
-    {
-      title: "",
-      antiphon: "",
-      text: "Ant. 1 I love you, Lord; you are my strength.\n\nPsalm 18\nThanksgiving for salvation and victory\n\nAt that time there was a violent earthquake (Revelation 11:13).\n\nI\n\nI love you, Lord, my strength,\nmy rock, my fortress, my savior.\nMy God is the rock where I take refuge;\nmy shield, my mighty help, my stronghold.\nThe Lord is worthy of all praise;\nwhen I call I am saved from my foes.\n\nThe waves of death rose about me;\nthe torrents of destruction assailed me;\nthe snares of the grave entangled me;\nthe traps of death confronted me.\nIn my anguish I called to the Lord;\nI cried to my God for help.\nFrom his temple he heard my voice;\nmy cry came to his ears.\n\nGlory to the Father, and to the Son, and to the Holy Spirit:\n— as it was in the beginning, is now, and will be for ever. Amen.\n\nAnt. I love you, Lord; you are my strength.\n\nAnt. 2 The Lord has saved me; he wanted me for his own.\n\nII\n\nThen the earth reeled and rocked;\nthe mountains were shaken to their base:\nthey reeled at his terrible anger.\nSmoke came forth from his nostrils\nand scorching fire from his mouth:\ncoals were set ablaze by its heat.\nHe lowered the heavens and came down,\na black cloud under his feet.\nHe came enthroned on the cherubim,\nhe flew on the wings of the wind.\nHe made the darkness his covering,\nthe dark waters of the clouds, his tent.\nA brightness shone out before him\nwith hailstones and flashes of fire.\nThe Lord thundered in the heavens;\nthe Most High let his voice be heard.\nHe shot his arrows, scattered the foe,\nflashed his lightnings and put them to flight.\nThe bed of the ocean was revealed;\nthe foundations of the world were laid bare\nat the thunder of your threat, O Lord,\nat the blast of the breath of your anger.\nFrom on high he reached down and seized me;\nhe drew me forth from the mighty waters.\nHe snatched me from my powerful foe,\nfrom my enemies whose strength I could not match.\nThey assailed me in the day of my misfortune,\nbut the Lord was my support.\nHe brought me forth into freedom,\nhe saved me because he loved me.\n\nGlory to the Father, and to the Son, and to the Holy Spirit:\n— as it was in the beginning, is now, and will be for ever. Amen.\n\nAnt. The Lord has saved me; he wanted me for his own.\n\nAnt. 3 Lord, kindle a light for my guidance and scatter my darkness.\n\nIII\n\nHe rewarded me because I was just,\nrepaid me, for my hands were clean,\nfor I have kept the way of the Lord\nand have not fallen away from my God.\nFor his judgments are all before me:\nI have never neglected his commands.\nI have always been upright before him;\nI have kept myself from guilt.\nHe repaid me because I was just\nand my hands were clean in his eyes.\nYou are loving with those who love you:\nyou show yourself perfect with the perfect.\nWith the sincere you show yourself sincere,\nbut the cunning you outdo in cunning.\nFor you save a humble people\nbut humble the eyes that are proud.\nYou, O Lord, are my lamp,\nmy God who lightens my darkness.\nWith you I can break through any barrier,\nwith my God I can scale any wall.\n\nGlory to the Father, and to the Son, and to the Holy Spirit:\n— as it was in the beginning, is now, and will be for ever. Amen.\n\nPsalm-prayer\n\nLord God, our strength and salvation, put in us the flame of your love and make our love for you grow to a perfect love which reaches to our neighbor.\n\nAnt. Lord, kindle a light for my guidance and scatter my darkness.",
-      source: "Divine Office — Office of Readings, Wednesday Week I (heard Wed Nov 18, 2026)",
-      url: "https://divineoffice.org/ord-w33-wed-or/"
-    }
-  ];
+  let PRAYERS = [];
+  fetch('prayers.json')
+    .then(r => r.json())
+    .then(data => { PRAYERS = data.prayers || []; showRandom(); })
+    .catch(() => {
+      document.getElementById('text').textContent =
+        'Could not load prayers.json.';
+    });
 
   // Theme: saved choice wins, otherwise follow the system.
   const root = document.documentElement;
