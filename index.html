@@ -126,7 +126,7 @@
   //               Office, ...)
   // ==========================================================
   let PRAYERS = [];
-  fetch('prayers.json')
+  fetch('prayers.json?t=' + Date.now(), { cache: 'no-store' })
     .then(r => r.json())
     .then(data => { PRAYERS = data.prayers || []; showRandom(); })
     .catch(() => {
